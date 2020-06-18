@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="navbar-nav">
+        <a class=" nav-item nav-link active" href="{% url 'shop:home' %}">Home</a>
+      {% if not request.user.is_authenticated %}
+        <a class=" nav-item nav-link active" href="{% url 'accounts:login' %}">Login</a>
+          <a class=" nav-item nav-link active" href="{% url 'accounts:register' %}">Register</a>
+      {% else %}
+        <a class=" nav-item nav-link active" href="{% url 'accounts:logout' %}">Logout</a>
+          <a class=" nav-item nav-link active" href="{% url 'cart:detail' %}">Cart</a>
+          <a class=" nav-item nav-link active" href="{% url 'accounts:profile' %}">Profile</a>
+
+      {% endif %}
+  </div>
+</nav>

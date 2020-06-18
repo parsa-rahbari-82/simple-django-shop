@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block content %}
+
+        <p>Main Category: <a href="{% url 'shop:category_filters' pcat.slug %}">{{ pcat }}</a></p>
+        <p>Product sub categories: {% for psub in psub_cats %}<a href="{% url 'shop:category_filters' psub.slug %}">{{ psub }}</a> |{% endfor %}</p>
+
+    <h3>{{ product.name }}</h3>
+    <img src="{{ product.image.url }}" height="300px" width="300px" alt="...">
+    <h1 style="color: #ff0000">Price: {{ product.price }} Toman</h1>
+    <br>
+    {% if product.available %}
+    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Add to Cart" class="btn btn-primary">
+    </form>
+    {% endif %}
+
+    <p><strong>Product Specifications:</strong>{{ product.description|linebreaks }}</p>
+    <br><br><br><br><br><br><br><br><br>
+    <strong>Similar Products</strong>
+    <hr>
+    {% for similar_product in  similar_products %}
+        <div class="card" style="width: 18rem; display: inline-block; margin: 2px">
+        {% thumbnail similar_product.image "300x300"  as im %}
+            <a href="{{ similar_product.get_absolute_url }}"><img src="{{ im.url }}" class="card-img-top" alt="..."></a>
+        {% endthumbnail %}
+            <div class="card-body">
+            <a href="{{ similar_product.get_absolute_url }}"><h5 class="card-title">{{ similar_product.name }}</h5></a>
+             <svg class="bi bi-check-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                 {% if similar_product.available %}
+
+  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+  <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path></svg>
+                     ready to buy
+                {% else %}
+
+  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+  <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"></path>
+                     <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"></path></svg>
+            This product is non-existent
+                {% endif %}
+
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}
