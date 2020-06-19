@@ -13,4 +13,5 @@ Features:
 3.Custom coupons
 4.Extended User model
 5.Smart shopping cart
- and so on ...
+       
+and so on ...
